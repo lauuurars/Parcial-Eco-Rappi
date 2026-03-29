@@ -6,6 +6,7 @@ import cors from "cors";
 
 import OrdersRouter from "./routes/modules/orders/orders.router.js";
 import UsersRouter from "./routes/modules/users/users.router.js";
+import StoresRouter from "./routes/modules/stores/stores.router.js";
 
 const PORT = 8080;
 
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use("/orders", OrdersRouter);
 
 app.use("/users", UsersRouter)
+
+app.use("/stores", StoresRouter)
 
 app.listen(PORT, () => {
     console.log("listening on port:", PORT);
