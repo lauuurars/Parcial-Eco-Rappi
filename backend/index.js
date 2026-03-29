@@ -11,6 +11,12 @@ const PORT = 8080;
 
 const app = express();
 
+app.get("/", (req, res) => {
+    res.send({
+        message: "Server Running :D"
+    });
+});
+
 app.use(cors());
 app.use(express.json());
 

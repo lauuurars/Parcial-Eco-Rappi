@@ -9,7 +9,7 @@ const controller = new OrdersController(repository);
 
 router.get("/", (req, res) => {
     res.send({
-        message: "Server Running :D"
+        message: "Orders Running :3"
     });
 });
 
