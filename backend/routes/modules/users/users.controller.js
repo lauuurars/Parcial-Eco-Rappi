@@ -43,4 +43,5 @@ export class UsersController {
             res.status(500).send({ error: error.message });
         }
     }
+    
 }

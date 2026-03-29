@@ -7,9 +7,9 @@ const router = express.Router()
 const repository = new UsersRepository();
 const controller = new UsersController(repository);
 
-router.post("/", controller.createUser);
+router.get("/", controller.getAllUsers);
 
-router.get("/users", controller.getAllUsers);
+router.post("/", controller.createUser);
 
 router.get("/:id", controller.getUserById);
 
