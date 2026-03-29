@@ -73,5 +73,15 @@ export class OrdersController {
 
         res.send({ order: updatedOrder });
     }
+
+    // método 7
+
+    getAcceptedOrdersByDeliveryId = async (req, res) => {
+        const deliveryId = Number(req.params.deliveryId);
+
+        const orders = await this.repository.getAcceptedOrdersByDeliveryId(deliveryId);
+
+        res.send({ orders });
+    }
 }
 

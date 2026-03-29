@@ -11,11 +11,15 @@ router.get("/", controller.getAllStores);
 
 router.post("/", controller.createStore);
 
+router.get("/products", controller.getAllProducts);
+
 router.get("/:id", controller.getStoreById);
 
 router.patch("/:id/toggle", controller.toggleStoreStatus);
 
 router.patch("/:storeId/orders/:orderId", controller.decideOrder);
+
+router.get("/:storeId/products", controller.getProductsByStoreId);
 
 router.post("/:storeId/products", controller.createProduct); // creando producto en la tienda seleccionada
 

@@ -8,8 +8,8 @@ export class OrdersRepository {
 
         // query que representa la orden, usamos placeholders para ordenar la info
         const query = `
-            INSERT INTO orders (consumer_id, store_id, address, payment_method, total, status)
-            VALUES ($1, $2, $3, $4, $5, 'pending')
+            INSERT INTO orders (consumer_id, store_id, address, payment_method, total, status, created_at)
+            VALUES ($1, $2, $3, $4, $5, 'pending', NOW())
             RETURNING *;
         `;
 
@@ -100,5 +100,18 @@ export class OrdersRepository {
 
         const result = await pool.query(query, values);
         return result.rows[0];
+    }
+
+    // método 7: ordenes aceptadas por los repartidores :p
+
+    getAcceptedOrdersByDeliveryId = async (deliveryId) => {
+        const query = `
+            SELECT * FROM orders
+            WHERE delivery_id = $1 AND status = 'accepted'
+            ORDER BY created_at DESC;
+        `;
+
+        const result = await pool.query(query, [deliveryId]);
+        return result.rows;
     }
 }

@@ -21,6 +21,8 @@ router.get("/user/:userId", controller.getOrdersByUserId); // consumidor
 
 router.get("/store/:storeId", controller.getOrdersByStoreId); // tienda
 
+router.get("/delivery/:deliveryId/accepted", controller.getAcceptedOrdersByDeliveryId); // repartidor
+
 router.patch("/:id/accept", controller.acceptOrder); // repartidor
 
 router.get("/:id", controller.getOrderById); // tienda

@@ -98,4 +98,27 @@ export class StoresRepository {
         const result = await pool.query(query, values);
         return result.rows[0];
     }
+
+    // método 7: obtener productos por id d la tienda 
+
+    getProductsByStoreId = async (storeId) => {
+        const query = `
+            SELECT * FROM products
+            WHERE store_id = $1
+            ORDER BY id ASC;
+        `;
+
+        const result = await pool.query(query, [storeId]);
+        return result.rows;
+    }
+
+    getAllProducts = async () => {
+        const query = `
+            SELECT * FROM products
+            ORDER BY id ASC;
+        `;
+
+        const result = await pool.query(query);
+        return result.rows;
+    }
 }

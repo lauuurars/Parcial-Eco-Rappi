@@ -105,4 +105,25 @@ export class StoresController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    // método 7 
+    
+    getProductsByStoreId = async (req, res) => {
+        try {
+            const storeId = Number(req.params.storeId);
+            const products = await this.repository.getProductsByStoreId(storeId);
+            res.send({ products });
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
+    getAllProducts = async (req, res) => {
+        try {
+            const products = await this.repository.getAllProducts();
+            res.send({ products });
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
