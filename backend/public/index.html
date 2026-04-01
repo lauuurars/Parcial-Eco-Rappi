@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rappi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#">
+            <img src="assets/Rappi_logo.svg.png" class="logo-img">
+        </a>
+
+        <div class="nav-right">
+
+            <ul class="nav-links">
+                <li><a href="#how">Cómo funciona</a></li>
+                <li><a href="#benefits">Beneficios</a></li>
+            </ul>
+            <a href="register.html" class="btn btn-primary">Registrarme</a>
+            
+        </div>
+
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-text">
+            <span class="hero-tag">🚀 Tu app de delivery</span>
+            <h1 class="hero-title">
+                Todo lo que quieres,<br><em>donde estás</em>
+            </h1>
+            <p class="hero-sub">
+                Conectamos consumidores, tiendas y repartidores en una sola plataforma. Pide, vende o reparte — tú
+                decides tu rol.
+            </p>
+            <div class="hero-actions">
+                <a href="register.html" class="btn btn-primary">Comenzar ahora</a>
+                <a href="#how" class="btn btn-outline">Ver cómo funciona</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section role-choose">
+        <p class="section-label reveal">Roles</p>
+        <h2 class="section-title reveal">Elige tu papel</h2>
+        <p class="section-sub reveal">Únete como consumidor, tienda o repartidor. Tú decides cómo participar.</p>
+
+        <div class="role-choose-cards">
+            <div class="vis-card reveal">
+                <div class="vis-icon" style="background:#fff4f0;">🛍️</div>
+                <h4>Consumidor</h4>
+                <p>Pide desde tus tiendas favoritas al instante.</p>
+            </div>
+            <div class="vis-card reveal">
+                <div class="vis-icon" style="background:#fffbe6;">🏪</div>
+                <h4>Tienda</h4>
+                <p>Gestiona pedidos y llega a más clientes.</p>
+            </div>
+            <div class="vis-card reveal">
+                <div class="vis-icon" style="background:#f0f7ff;">🛵</div>
+                <h4>Repartidor</h4>
+                <p>Escoge tus entregas y genera ingresos.</p>
+            </div>
+            <div class="vis-card reveal" style="background: var(--accent); color:#fff; border-color: var(--accent);">
+                <div style="font-size:2rem; margin-bottom:.8rem;">⚡</div>
+                <h4 style="color:#fff;">Rápido y simple</h4>
+                <p style="color:rgba(255,255,255,.75);">Desde el pedido hasta tu puerta en minutos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how">
+        <p class="section-label reveal">El proceso</p>
+        <h2 class="section-title reveal">¿Cómo funciona?</h2>
+        <p class="section-sub reveal">En tres pasos simples, tu pedido viaja desde la tienda hasta ti.</p>
+
+        <div class="steps">
+            <div class="step reveal">
+                <div class="step-num">01</div>
+                <h3>Elige y pide</h3>
+                <p>El consumidor selecciona productos y realiza su pedido. La tienda lo recibe al instante.</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">02</div>
+                <h3>Tienda confirma</h3>
+                <p>La tienda acepta la orden y un repartidor cercano la toma para preparar la entrega.</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">03</div>
+                <h3>Entrega en puerta</h3>
+                <p>El repartidor lleva el pedido hasta la dirección indicada. ¡Así de fácil!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section class="section benefits-bg" id="benefits">
+        <p class="section-label reveal">Servicios</p>
+        <h2 class="section-title reveal">Beneficios para cada uno</h2>
+        <p class="section-sub reveal">Sin importar tu rol en la plataforma, hay algo pensado especialmente para ti.</p>
+
+        <div class="roles-grid">
+            <div class="role-card reveal">
+                <div class="role-emoji">🛍️</div>
+                <h3>Consumidor</h3>
+                <ul>
+                    <li>Pide desde cualquier tienda registrada</li>
+                    <li>Elige tu método de pago favorito</li>
+                    <li>Sigue el estado de tu orden en tiempo real</li>
+                    <li>Historial completo de pedidos</li>
+                </ul>
+            </div>
+            <div class="role-card reveal">
+                <div class="role-emoji">🏪</div>
+                <h3>Tienda</h3>
+                <ul>
+                    <li>Recibe y gestiona pedidos fácilmente</li>
+                    <li>Acepta o rechaza órdenes según disponibilidad</li>
+                    <li>Amplía tu alcance de clientes</li>
+                    <li>Panel de órdenes en tiempo real</li>
+                </ul>
+            </div>
+            <div class="role-card reveal">
+                <div class="role-emoji">🛵</div>
+                <h3>Repartidor</h3>
+                <ul>
+                    <li>Elige las órdenes disponibles libremente</li>
+                    <li>Horarios completamente flexibles</li>
+                    <li>Genera ingresos a tu propio ritmo</li>
+                    <li>Visualiza entregas pendientes al instante</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTIONNN -->
+    <section class="cta-band">
+        <h2>¿Listo para unirte? <span>Elige tu rol</span> y empieza hoy.</h2>
+        <a href="register.html" class="btn btn-primary" style="font-size:1rem; padding:.85rem 2rem;">
+            Crear cuenta gratis
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="#" class="nav-logo">
+            <img src="assets/Rappi_logo.svg.png" class="footer-logo-img" alt="Rappi">
+        </a>
+        <p>© 2025 Rappi</p>
+        <div class="footer-links">
+            <a href="#how">Cómo funciona</a>
+            <a href="#benefits">Beneficios</a>
+            <a href="register.html">Registrarme</a>
+        </div>
+    </footer>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 80);
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        reveals.forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

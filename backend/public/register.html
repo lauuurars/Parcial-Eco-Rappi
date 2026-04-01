@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro · Rappi</title>
+    <link rel="stylesheet" href="register.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- LEFT -->
+    <div class="left-panel">
+        <a href="index.html" class="back-link">← Volver al inicio</a>
+        <div class="left-content">
+            <img src="assets/Rappi_logo.svg.png" class="logo-img" alt="Rappi">
+            <h2>Únete a la<br><em>plataforma</em></h2>
+            <p>Crea tu cuenta en segundos y empieza a disfrutar de la experiencia según tu rol.</p>
+        </div>
+        <p class="left-bottom">© 2025 Rappi</p>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-panel">
+        <div class="form-wrapper">
+            <h1 class="form-title">Crear cuenta</h1>
+            <p class="form-sub">¿Ya tienes una? <a href="#">Inicia sesión</a></p>
+
+            <!-- ROLE SELECTOR -->
+            <div class="role-selector">
+                <div>
+                    <input type="radio" name="role" id="role-consumer" value="consumer" class="role-option" checked />
+                    <label for="role-consumer" class="role-label">
+                        <span class="role-emoji-big">🛍️</span>
+                        <span class="role-name">Consumidor</span>
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" name="role" id="role-store" value="store" class="role-option" />
+                    <label for="role-store" class="role-label">
+                        <span class="role-emoji-big">🏪</span>
+                        <span class="role-name">Tienda</span>
+                    </label>
+                </div>
+                <div>
+                    <input type="radio" name="role" id="role-delivery" value="delivery" class="role-option" />
+                    <label for="role-delivery" class="role-label">
+                        <span class="role-emoji-big">🛵</span>
+                        <span class="role-name">Repartidor</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- CAMPOS BASE -->
+            <div class="field-group">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" id="name" placeholder="Username" />
+                </div>
+                <div class="field">
+                    <label>Correo electrónico</label>
+                    <input type="email" id="email" placeholder="correo@ejemplo.com" />
+                </div>
+                <div class="field">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" placeholder="Mínimo 8 caracteres" />
+                </div>
+            </div>
+
+            <!-- CAMPOS EXTRA: TIENDA -->
+            <div class="extra-fields" id="extra-store">
+                <div class="field">
+                    <label>Nombre de la tienda</label>
+                    <input type="text" id="store-name" placeholder="Sr Wok, Chilitaco..." />
+                </div>
+                <div class="field">
+                    <label>Dirección de la tienda</label>
+                    <input type="text" id="store-address" placeholder="Calle 123 #45-67" />
+                </div>
+            </div>
+
+            <!-- CAMPOS EXTRA: REPARTIDOR -->
+            <div class="extra-fields" id="extra-delivery">
+                <div class="field">
+                    <label>Teléfono de contacto</label>
+                    <input type="tel" id="delivery-phone" placeholder="300 000 0000" />
+                </div>
+            </div>
+
+            <p class="error-msg" id="error-msg">Por favor completa todos los campos.</p>
+
+            <button class="btn-submit" id="submit-btn">Crear cuenta</button>
+
+            <div class="divider">o</div>
+            <p style="font-size:.8rem; color:var(--muted); text-align:center;">
+                Al registrarte aceptas los <a href="#" style="color:var(--ink);">términos y condiciones</a> de la
+                plataforma.
+            </p>
+        </div>
+    </div>
+
+    <script src="register.js"></script>
+</body>
+
+</html>
