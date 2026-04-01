@@ -14,92 +14,110 @@ export class OrdersController {
             });
 
         } catch (error) { 
-            res.status(500).send({
-                error: error.message
-            });
+            res.status(500).send({ message: error.message });
         }
     }
 
     //método 2
     getOrdersByUserId = async (req, res) => {
-        const userId = Number(req.params.userId);
-
-        const orders = await this.repository.getOrdersByUserId(userId);
-
-        res.send({ orders });
+        try {
+            const userId = Number(req.params.userId);
+            const orders = await this.repository.getOrdersByUserId(userId);
+            res.status(200).send({ orders });
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+        }
     }
 
     // método 3
     getOrderById = async (req, res) => {
-        const orderId = Number(req.params.id);
+        try {
+            const orderId = Number(req.params.id);
+            const order = await this.repository.getOrderById(orderId);
 
-        const order = await this.repository.getOrderById(orderId);
+            if (!order || order.length === 0) {
+                res.status(404).send({ message: "Order not found :(" });
+                return;
+            }
 
-        if (!order || order.length === 0) {
-            res.send("Orden no encontrada :(");
-            return;
+            res.status(200).send({ order });
+        } catch (error) {
+            res.status(500).send({ message: error.message });
         }
-
-        res.send({ order });
     }
 
     // método 4
     getOrdersByStoreId = async (req, res) => {
-        const storeId = Number(req.params.storeId);
-
-        const orders = await this.repository.getOrdersByStoreId(storeId);
-
-        res.send({ orders });
+        try {
+            const storeId = Number(req.params.storeId);
+            const orders = await this.repository.getOrdersByStoreId(storeId);
+            res.status(200).send({ orders });
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+        }
     }
 
     // método 5
     getAvailableOrders = async (req, res) => {
-        const orders = await this.repository.getAvailableOrders();
-
-        res.send({ orders });
+        try {
+            const orders = await this.repository.getAvailableOrders();
+            res.status(200).send({ orders });
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+        }
     }
 
     // método 6
-    acceptOrder = async (req, res) => {
-        const orderId = Number(req.params.id);
-        const { delivery_id } = req.body;
+    assignDelivery = async (req, res) => {
+        try {
+            const orderId = Number(req.params.id);
+            const { delivery_id } = req.body;
 
-        const updatedOrder = await this.repository.acceptOrder(orderId, delivery_id);
+            const updatedOrder = await this.repository.assignDelivery(orderId, delivery_id);
 
-    if (!updatedOrder) {
-        res.status(409).send({ message: "Order not available or already taken :(" });
-        return;
-    }
+            if (!updatedOrder) {
+                res.status(409).send({ message: "Order not available or already taken :(" });
+                return;
+            }
 
-        res.send({ order: updatedOrder });
+            res.status(200).send({ order: updatedOrder });
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+        }
     }
 
     // método 7
 
     getAcceptedOrdersByDeliveryId = async (req, res) => {
-        const deliveryId = Number(req.params.deliveryId);
-
-        const orders = await this.repository.getAcceptedOrdersByDeliveryId(deliveryId);
-
-        res.send({ orders });
+        try {
+            const deliveryId = Number(req.params.deliveryId);
+            const orders = await this.repository.getAcceptedOrdersByDeliveryId(deliveryId);
+            res.status(200).send({ orders });
+        } catch (error) {
+            res.status(500).send({ message: error.message });
+        }
     }
 
     // método 8
     
     deliverOrder = async (req, res) => {
-        const orderId = Number(req.params.id);
-        const { delivery_id } = req.body;
+        try {
+            const orderId = Number(req.params.id);
+            const { delivery_id } = req.body;
 
-        const updatedOrder = await this.repository.deliverOrder(orderId, delivery_id);
+            const updatedOrder = await this.repository.deliverOrder(orderId, delivery_id);
 
-        if (!updatedOrder) {
-            res.status(400).send({
-                message: "The order cannot be delivered. Please verify that the order has been accepted by a delivery :("
-            });
-            return;
+            if (!updatedOrder) {
+                res.status(409).send({
+                    message: "The order cannot be delivered. Verify it is accepted and assigned to this delivery :("
+                });
+                return;
+            }
+
+            res.status(200).send({ order: updatedOrder });
+        } catch (error) {
+            res.status(500).send({ message: error.message });
         }
-
-        res.send({ order: updatedOrder });
     }
 }
 

@@ -23,7 +23,7 @@ router.get("/store/:storeId", controller.getOrdersByStoreId); // tienda
 
 router.get("/delivery/:deliveryId/accepted", controller.getAcceptedOrdersByDeliveryId); // repartidor
 
-router.patch("/:id/accept", controller.acceptOrder); // repartidor
+router.patch("/:id/accept", controller.assignDelivery); // repartidor
 
 router.patch("/:id/deliver", controller.deliverOrder); // repartidor
 

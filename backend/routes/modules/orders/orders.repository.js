@@ -77,7 +77,7 @@ export class OrdersRepository {
     getAvailableOrders = async () => {
         const query = `
             SELECT * FROM orders
-            WHERE status = 'pending' AND delivery_id IS NULL
+            WHERE status = 'accepted' AND delivery_id IS NULL
             ORDER BY created_at ASC;
         `;
 
@@ -87,12 +87,11 @@ export class OrdersRepository {
 
     // método 6: aceptar una orden (repartidor)
 
-    acceptOrder = async (orderId, deliveryId) => {
+    assignDelivery = async (orderId, deliveryId) => {
         const query = `
         UPDATE orders
-        SET delivery_id = $1,
-        status = 'accepted'
-        WHERE id = $2 AND delivery_id IS NULL
+        SET delivery_id = $1
+        WHERE id = $2 AND delivery_id IS NULL AND status = 'accepted'
         RETURNING *;
     `;
 
