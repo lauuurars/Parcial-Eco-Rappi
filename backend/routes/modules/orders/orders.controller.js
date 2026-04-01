@@ -66,10 +66,10 @@ export class OrdersController {
 
         const updatedOrder = await this.repository.acceptOrder(orderId, delivery_id);
 
-        if (!updatedOrder) {
-            res.send("Orden no disponible o ya tomada :p");
-            return;
-        }
+    if (!updatedOrder) {
+        res.status(409).send({ message: "Order not available or already taken :(" });
+        return;
+    }
 
         res.send({ order: updatedOrder });
     }
@@ -82,6 +82,24 @@ export class OrdersController {
         const orders = await this.repository.getAcceptedOrdersByDeliveryId(deliveryId);
 
         res.send({ orders });
+    }
+
+    // método 8
+    
+    deliverOrder = async (req, res) => {
+        const orderId = Number(req.params.id);
+        const { delivery_id } = req.body;
+
+        const updatedOrder = await this.repository.deliverOrder(orderId, delivery_id);
+
+        if (!updatedOrder) {
+            res.status(400).send({
+                message: "The order cannot be delivered. Please verify that the order has been accepted by a delivery :("
+            });
+            return;
+        }
+
+        res.send({ order: updatedOrder });
     }
 }
 

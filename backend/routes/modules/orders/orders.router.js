@@ -25,6 +25,8 @@ router.get("/delivery/:deliveryId/accepted", controller.getAcceptedOrdersByDeliv
 
 router.patch("/:id/accept", controller.acceptOrder); // repartidor
 
+router.patch("/:id/deliver", controller.deliverOrder); // repartidor
+
 router.get("/:id", controller.getOrderById); // tienda
 
 export default router;

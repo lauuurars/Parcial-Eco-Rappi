@@ -114,4 +114,20 @@ export class OrdersRepository {
         const result = await pool.query(query, [deliveryId]);
         return result.rows;
     }
+
+    // método 8: marcar una orden como entregada
+
+    deliverOrder = async (orderId, deliveryId) => {
+        const query = `
+            UPDATE orders
+            SET status = 'delivered'
+            WHERE id = $1 AND delivery_id = $2 AND status = 'accepted'
+            RETURNING *;
+        `;
+
+        const values = [orderId, deliveryId];
+
+        const result = await pool.query(query, values);
+        return result.rows[0];
+    }
 }
