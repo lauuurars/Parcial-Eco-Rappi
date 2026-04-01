@@ -23,6 +23,7 @@ app.use("/users", UsersRouter)
 
 app.use("/stores", StoresRouter)
 
+app.use("/consumer", express.static(path.join(__dirname, "../consumer-app/dist")))
 app.use("/", express.static(path.join(__dirname, "public")))
 
 app.listen(PORT, () => {
