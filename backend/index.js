@@ -39,7 +39,7 @@ app.use("/rappi", express.static(frontendDistPath));
 app.use("/", express.static(publicPath));
 
 // SPA fallback
-app.get(/^\/rappi(\/.*)?$/, (req, res) => {
+app.get("/rappi/*", (req, res) => {
     res.sendFile(path.join(frontendDistPath, "index.html"));
 });
 
@@ -51,7 +51,7 @@ app.get("*", (req, res) => {
         req.path.startsWith("/stores") ||
         req.path.startsWith("/api")
     ) {
-        return res.status(404).json({ message: "Not found" });
+        return res.status(404).send({ message: "Not found" });
     }
 
     res.sendFile(path.join(publicPath, "index.html"));
