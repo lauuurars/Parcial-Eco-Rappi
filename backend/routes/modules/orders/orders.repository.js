@@ -105,10 +105,13 @@ export class OrdersRepository {
                 oi.id AS item_id,
                 oi.product_id,
                 oi.quantity,
-                oi.price
+                oi.price,
+                p.product_name
             FROM orders o
             LEFT JOIN order_items oi 
             ON o.id = oi.order_id
+            LEFT JOIN products p
+            ON p.id = oi.product_id
             WHERE o.id = $1;
         `;
 
@@ -163,7 +166,7 @@ export class OrdersRepository {
     getAcceptedOrdersByDeliveryId = async (deliveryId) => {
         const query = `
             SELECT * FROM orders
-            WHERE delivery_id = $1 AND status = 'accepted'
+            WHERE delivery_id = $1 AND status IN ('accepted', 'delivered')
             ORDER BY created_at DESC;
         `;
 

@@ -10,7 +10,7 @@ import UsersRouter from "./routes/modules/users/users.router.js";
 import StoresRouter from "./routes/modules/stores/stores.router.js";
 import AuthRouter from "./routes/modules/auth/auth.router.js";
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const __dirname = import.meta.dirname
 
 const app = express();
