@@ -13,6 +13,8 @@ import RedirectByRole from "./RedirectByRole.jsx";
 import Dashboard from "../../modules/stores/pages/Dashboard.jsx";
 import StoreOrders from "../../modules/stores/pages/StoreOrders.jsx";
 import DeliveryHome from "../../modules/delivery/pages/DeliveryHome.jsx";
+import DeliveryOrderDetail from "../../modules/delivery/pages/DeliveryOrderDetail.jsx";
+import DeliveryAcceptedOrders from "../../modules/delivery/pages/DeliveryAcceptedOrders.jsx";
 
 const router = createBrowserRouter(
     [
@@ -91,6 +93,22 @@ const router = createBrowserRouter(
                     element: (
                         <PrivateRoute allowedRoles={["delivery"]}>
                             <DeliveryHome />
+                        </PrivateRoute>
+                    ),
+                },
+                {
+                    path: "delivery/orders/:orderId",
+                    element: (
+                        <PrivateRoute allowedRoles={["delivery"]}>
+                            <DeliveryOrderDetail />
+                        </PrivateRoute>
+                    ),
+                },
+                {
+                    path: "delivery/accepted",
+                    element: (
+                        <PrivateRoute allowedRoles={["delivery"]}>
+                            <DeliveryAcceptedOrders />
                         </PrivateRoute>
                     ),
                 },

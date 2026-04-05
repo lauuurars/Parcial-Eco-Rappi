@@ -13,6 +13,7 @@ export default function AppNavbar({ title }) {
 
     const isConsumer = user?.role === "consumer";
     const isStore = user?.role === "store" || user?.role === "store_admin";
+    const isDelivery = user?.role === "delivery";
     const cartItems = isConsumer && Array.isArray(cart) ? cart : [];
     const cartCount = isConsumer ? cartItems.length : 0;
 
@@ -53,6 +54,16 @@ export default function AppNavbar({ title }) {
     const handleGoToStoreOrders = () => {
         setIsCartOpen(false);
         navigate("/rappi-app/stores/orders");
+    };
+
+    const handleGoToDeliveryAvailable = () => {
+        setIsCartOpen(false);
+        navigate("/rappi-app/delivery");
+    };
+
+    const handleGoToDeliveryAccepted = () => {
+        setIsCartOpen(false);
+        navigate("/rappi-app/delivery/accepted");
     };
 
     return (
@@ -127,6 +138,28 @@ export default function AppNavbar({ title }) {
                             style={{ fontFamily: "'Syne', sans-serif" }}
                         >
                             Órdenes
+                        </button>
+                    )}
+
+                    {isDelivery && (
+                        <button
+                            type="button"
+                            onClick={handleGoToDeliveryAvailable}
+                            className="cursor-pointer px-4 py-2 rounded-full border-[1.5px] border-[#e2ddd8] text-[#111010] text-sm font-bold hover:border-[#ff4f00] hover:text-[#ff4f00] transition-colors"
+                            style={{ fontFamily: "'Syne', sans-serif" }}
+                        >
+                            Disponibles
+                        </button>
+                    )}
+
+                    {isDelivery && (
+                        <button
+                            type="button"
+                            onClick={handleGoToDeliveryAccepted}
+                            className="cursor-pointer px-4 py-2 rounded-full border-[1.5px] border-[#e2ddd8] text-[#111010] text-sm font-bold hover:border-[#ff4f00] hover:text-[#ff4f00] transition-colors"
+                            style={{ fontFamily: "'Syne', sans-serif" }}
+                        >
+                            Mis aceptadas
                         </button>
                     )}
 

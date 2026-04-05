@@ -126,6 +126,27 @@ export default function MyOrders() {
                             const createdAtText = createdAt && !Number.isNaN(createdAt.getTime())
                                 ? createdAt.toLocaleString("es-CO")
                                 : "";
+                            const status = String(order?.status ?? "");
+                            const statusLabel =
+                                status === "pending"
+                                    ? "Pendiente"
+                                    : status === "accepted"
+                                        ? "Aceptada"
+                                        : status === "cancelled"
+                                            ? "Rechazada"
+                                            : status === "delivered"
+                                                ? "Entregada"
+                                                : status || "Pendiente";
+                            const badgeClass =
+                                status === "pending"
+                                    ? "border-[#f0e6df] bg-[#fff6f0] text-[#7a3a1f]"
+                                    : status === "accepted"
+                                        ? "border-[#d7f5df] bg-[#effff3] text-[#1f7a36]"
+                                        : status === "cancelled"
+                                            ? "border-[#f3d7d7] bg-[#fff0f0] text-[#c0392b]"
+                                            : status === "delivered"
+                                                ? "border-[#d7e7f5] bg-[#f0f7ff] text-[#1f4f7a]"
+                                                : "border-[#e2ddd8] bg-white text-[#1c1c1c]";
 
                             return (
                                 <div
@@ -148,8 +169,8 @@ export default function MyOrders() {
                                         </div>
 
                                         <div className="flex flex-col items-start sm:items-end gap-1">
-                                            <span className="text-xs font-bold px-3 py-1 rounded-full border-[1.5px] border-[#e2ddd8] text-[#1c1c1c]">
-                                                {order.status || "pendiente"}
+                                            <span className={`text-xs font-bold px-3 py-1 rounded-full border-[1.5px] ${badgeClass}`}>
+                                                {statusLabel}
                                             </span>
                                             <p className="text-lg font-black text-[#111010]" style={{ fontFamily: "'Syne', sans-serif" }}>
                                                 ${Number(order.total ?? 0).toLocaleString("es-CO")}
