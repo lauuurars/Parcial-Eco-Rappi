@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../auth/hooks/useAuth.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RappiLogo from "./assets/Rappi_logo.svg.png"
 import RappiBanner from "./assets/rappi-banner.avif"
 
@@ -38,7 +38,7 @@ export default function Login() {
                 navigate("/rappi-app/orders");
             } 
             else if (role === "store") {
-                navigate("/rappi-app/dashboard");
+                navigate("/rappi-app/stores");
             }
 
         } catch (err) {
@@ -93,9 +93,9 @@ export default function Login() {
 
                     <p className="text-sm text-[#7a7370] mb-8">
                         ¿No tienes cuenta?{" "}
-                        <a href="/sign-up" className="text-[#ff4f00] hover:underline">
+                        <Link to="/sign-up" className="text-[#ff4f00] hover:underline">
                             Crear cuenta
-                        </a>
+                        </Link>
                     </p>
 
                     {/* CAMPOS */}

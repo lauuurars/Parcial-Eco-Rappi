@@ -3,10 +3,28 @@ import { authService } from "../services/auth.service.js";
 
 export function useAuth() {
 
+    // normalizamos el usuario, si llega store_admin convertimos a store
+    const normalizeRole = (role) => {
+        if (role === "store_admin") return "store";
+        return role;
+    };
+
+    const normalizeUser = (raw) => {
+        if (!raw) return null;
+
+        if (raw.user && raw.auth) {
+            const role = normalizeRole(raw.user?.role ?? raw.role);
+            return { ...raw.user, auth: raw.auth, store: raw.store ?? null, role };
+        }
+
+        const role = normalizeRole(raw.role);
+        return { ...raw, role };
+    }; 
+
     // recuperar sesión al cargar
     const [user, setUser] = useState(() => {
         const stored = localStorage.getItem("user");
-        return stored ? JSON.parse(stored) : null;
+        return stored ? normalizeUser(JSON.parse(stored)) : null;
     });
 
     const [loading, setLoading] = useState(false); // loader 
@@ -39,11 +57,11 @@ export function useAuth() {
 
             const userData = response.result;
 
-            // enviamos el rol seleccionado
-            const normalizedUser = {
-                ...userData,
-                role: userData.role || role
-            };
+            const normalizedUser = normalizeUser({
+                auth: userData?.auth,
+                user: userData?.user,
+                store: userData?.store
+            }) ?? { role };
 
             // guardar sesión automática
             localStorage.setItem("user", JSON.stringify(normalizedUser));
@@ -70,9 +88,7 @@ export function useAuth() {
 
             const result = response?.result;
 
-            const userData = result?.user
-                ? { ...result.user, auth: result.auth, store: result.store }
-                : result;
+            const userData = normalizeUser(result?.user ? { ...result.user, auth: result.auth, store: result.store } : result);
 
             // guardar en localStorage
             localStorage.setItem("user", JSON.stringify(userData));
@@ -99,6 +115,7 @@ export function useAuth() {
         loading,
         error,
         register,
-        login
+        login,
+        logOut
     };
 }

@@ -1,5 +1,6 @@
 import { supabase } from "../../config/supabase-db.js";
 import { userRepository } from "../users/users.repository.js";
+import { randomUUID } from "crypto";
 
 class AuthRepository {
 
@@ -32,7 +33,7 @@ class AuthRepository {
         // si es rol "store" creamos la data de la tienda
         let storeData = null;
 
-        if (role === "store") {
+        if (profile.role === "store_admin") {
             if (!store) {
                 throw new Error("Datos de tienda requeridos");
             }
@@ -41,10 +42,12 @@ class AuthRepository {
                 .from("stores")
                 .insert([
                     {
+                        id: randomUUID(),
                         owner_id: profile.id,
                         name: store.name,
                         description: store.description,
-                        address: store.address
+                        address: store.address,
+                        created_at: new Date().toISOString()
                     }
                 ])
                 .select()
@@ -89,7 +92,7 @@ class AuthRepository {
         // si es admin tienda → traer su store
         let storeData = null;
 
-        if (profile.role === "store") {
+        if (profile.role === "store_admin") {
             const { data, error: storeError } = await supabase
                 .from("stores")
                 .select("*")

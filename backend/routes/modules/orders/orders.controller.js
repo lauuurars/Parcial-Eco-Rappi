@@ -7,13 +7,22 @@ export class OrdersController {
     // método 1
     createOrder = async (req, res) => {
         try {
-            const newOrder = await this.repository.createOrder(req.body); // recibimos lo que envía el cliente :p
+            const created = await this.repository.createOrder(req.body); // recibimos lo que envía el cliente :p
 
-            res.status(201).send({ 
-                order: newOrder
+            if (created && created.order) {
+                res.status(201).send({
+                    order: created.order,
+                    items: created.items ?? []
+                });
+                return;
+            }
+
+            res.status(201).send({
+                order: created
             });
 
         } catch (error) { 
+            console.error(error);
             res.status(500).send({ message: error.message });
         }
     }
@@ -21,10 +30,11 @@ export class OrdersController {
     //método 2
     getOrdersByUserId = async (req, res) => {
         try {
-            const userId = Number(req.params.userId);
+            const userId = req.params.userId;
             const orders = await this.repository.getOrdersByUserId(userId);
             res.status(200).send({ orders });
         } catch (error) {
+            console.error(error);
             res.status(500).send({ message: error.message });
         }
     }
@@ -32,7 +42,7 @@ export class OrdersController {
     // método 3
     getOrderById = async (req, res) => {
         try {
-            const orderId = Number(req.params.id);
+            const orderId = req.params.id;
             const order = await this.repository.getOrderById(orderId);
 
             if (!order || order.length === 0) {
@@ -42,6 +52,7 @@ export class OrdersController {
 
             res.status(200).send({ order });
         } catch (error) {
+            console.error(error);
             res.status(500).send({ message: error.message });
         }
     }
@@ -49,10 +60,11 @@ export class OrdersController {
     // método 4
     getOrdersByStoreId = async (req, res) => {
         try {
-            const storeId = Number(req.params.storeId);
+            const storeId = req.params.storeId;
             const orders = await this.repository.getOrdersByStoreId(storeId);
             res.status(200).send({ orders });
         } catch (error) {
+            console.error(error);
             res.status(500).send({ message: error.message });
         }
     }
@@ -63,6 +75,7 @@ export class OrdersController {
             const orders = await this.repository.getAvailableOrders();
             res.status(200).send({ orders });
         } catch (error) {
+            console.error(error);
             res.status(500).send({ message: error.message });
         }
     }
@@ -70,7 +83,7 @@ export class OrdersController {
     // método 6
     assignDelivery = async (req, res) => {
         try {
-            const orderId = Number(req.params.id);
+            const orderId = req.params.id;
             const { delivery_id } = req.body;
 
             const updatedOrder = await this.repository.assignDelivery(orderId, delivery_id);
@@ -82,6 +95,7 @@ export class OrdersController {
 
             res.status(200).send({ order: updatedOrder });
         } catch (error) {
+            console.error(error);
             res.status(500).send({ message: error.message });
         }
     }
@@ -90,10 +104,11 @@ export class OrdersController {
 
     getAcceptedOrdersByDeliveryId = async (req, res) => {
         try {
-            const deliveryId = Number(req.params.deliveryId);
+            const deliveryId = req.params.deliveryId;
             const orders = await this.repository.getAcceptedOrdersByDeliveryId(deliveryId);
             res.status(200).send({ orders });
         } catch (error) {
+            console.error(error);
             res.status(500).send({ message: error.message });
         }
     }
@@ -102,7 +117,7 @@ export class OrdersController {
     
     deliverOrder = async (req, res) => {
         try {
-            const orderId = Number(req.params.id);
+            const orderId = req.params.id;
             const { delivery_id } = req.body;
 
             const updatedOrder = await this.repository.deliverOrder(orderId, delivery_id);
@@ -116,6 +131,7 @@ export class OrdersController {
 
             res.status(200).send({ order: updatedOrder });
         } catch (error) {
+            console.error(error);
             res.status(500).send({ message: error.message });
         }
     }

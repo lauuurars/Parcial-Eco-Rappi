@@ -29,7 +29,7 @@ export class StoresController {
 
     getStoreById = async (req, res) => {
         try {
-            const storeId = Number(req.params.id);
+            const storeId = req.params.id;
             const store = await this.repository.getStoreById(storeId);
 
             if (!store) {
@@ -47,7 +47,7 @@ export class StoresController {
 
     toggleStoreStatus = async (req, res) => {
         try {
-            const storeId = Number(req.params.id);
+            const storeId = req.params.id;
             const updatedStore = await this.repository.toggleStoreStatus(storeId);
 
             if (!updatedStore) {
@@ -65,8 +65,8 @@ export class StoresController {
 
     decideOrder = async (req, res) => {
     try {
-        const storeId = Number(req.params.storeId);
-        const orderId = Number(req.params.orderId);
+        const storeId = req.params.storeId;
+        const orderId = req.params.orderId;
         const { decision } = req.body;
 
         if (!["accept", "reject"].includes(decision)) {
@@ -98,7 +98,7 @@ export class StoresController {
 
     createProduct = async (req, res) => {
         try {
-            const storeId = Number(req.params.storeId);
+            const storeId = req.params.storeId;
             const newProduct = await this.repository.createProduct(storeId, req.body);
             res.status(201).send({ product: newProduct });
         } catch (error) {
@@ -110,7 +110,7 @@ export class StoresController {
     
     getProductsByStoreId = async (req, res) => {
         try {
-            const storeId = Number(req.params.storeId);
+            const storeId = req.params.storeId;
             const products = await this.repository.getProductsByStoreId(storeId);
             res.send({ products });
         } catch (error) {

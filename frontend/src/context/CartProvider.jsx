@@ -1,19 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CartContext } from "./CartContext.js";
 
 export const CartProvider = ({ children }) => {
 
-    const [cart, setCart] = useState([]); // iniciando con carrito vacio 
+    const storageKey = "rappi_cart";
+
+    const [cart, setCart] = useState(() => {
+        try {
+            const stored = localStorage.getItem(storageKey);
+            const parsed = stored ? JSON.parse(stored) : [];
+            return Array.isArray(parsed) ? parsed : [];
+        } catch {
+            return [];
+        }
+    });
+
+    useEffect(() => {
+        localStorage.setItem(storageKey, JSON.stringify(cart));
+    }, [cart, storageKey]);
 
     // agregar producto 
     const addToCart = (product) => {
-        setCart([...cart, product]); // actualizamos el estado sin borrar elementos anteriores
+        setCart((previousCart) => [...previousCart, product]); // actualizamos el estado sin borrar elementos anteriores
     };  
 
     // eliminar producto con su id 
     const deleteProduct = (id) => {
-        const newCart = cart.filter((item) => item.id !== id);
-        setCart(newCart); 
+        setCart((previousCart) => previousCart.filter((item) => item.id !== id));
     }; 
 
     // vaciar carrito

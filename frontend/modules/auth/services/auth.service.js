@@ -14,7 +14,7 @@ export const authService = {
         const json = await res.json();
 
         if (!res.ok) {
-            throw new Error(json.error || "Error en registro :(");
+            throw new Error(json.error || json.message || "Error en registro :(");
         }
 
         return json;
@@ -32,7 +32,7 @@ export const authService = {
         const json = await res.json();
 
         if (!res.ok) {
-            throw new Error(json.error || "Error en login :(");
+            throw new Error(json.error || json.message || "Error en login :(");
         }
 
         return json;

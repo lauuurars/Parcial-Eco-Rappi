@@ -19,7 +19,8 @@ export default function RedirectByRole() {
                 navigate("/rappi-app/delivery", { replace: true });
                 break;
             case "store":
-                navigate("/rappi-app/store", { replace: true });
+            case "store_admin":
+                navigate("/rappi-app/stores", { replace: true });
                 break;
             default:
                 navigate("/", { replace: true });

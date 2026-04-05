@@ -29,7 +29,13 @@ export class UsersRepository {
     // método 3: crear un nuevo usuario 
 
     createUser = async ({ id,   username, email, role }) => {
-        const safeRole = role ?? "consumer";
+        const normalizeRole = (inputRole) => {
+            const r = (inputRole ?? "consumer").trim();
+            if (r === "store") return "store_admin";
+            return r;
+        };
+
+        const safeRole = normalizeRole(role);
         const query = `
         INSERT INTO users (id, username, email, role, created_at)
         VALUES ($1, $2, $3, $4, NOW())

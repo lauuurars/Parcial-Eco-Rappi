@@ -1,4 +1,5 @@
 import { pool } from "../../config/supabase-db.js"
+import { randomUUID } from "crypto";
 
 export class StoresRepository {
 
@@ -6,12 +7,13 @@ export class StoresRepository {
 
     createStore = async (store) => {
         const query = `
-            INSERT INTO stores (owner_id, name, description, address, is_open, created_at)
-            VALUES ($1, $2, $3, $4, false, NOW())
+            INSERT INTO stores (id, owner_id, name, description, address, is_open, created_at)
+            VALUES ($1, $2, $3, $4, $5, false, NOW())
             RETURNING *;
         `;
 
         const values = [
+            randomUUID(),
             store.owner_id,
             store.name,
             store.description,
@@ -82,12 +84,13 @@ export class StoresRepository {
 
     createProduct = async (storeId, product) => {
         const query = `
-            INSERT INTO products (store_id, product_name, product_description, price, stock, created_at)
-            VALUES ($1, $2, $3, $4, $5, NOW())
+            INSERT INTO products (id, store_id, product_name, product_description, price, stock, created_at)
+            VALUES ($1, $2, $3, $4, $5, $6, NOW())
             RETURNING *;
         `;
 
         const values = [
+            randomUUID(),
             storeId,
             product.product_name,
             product.product_description,
