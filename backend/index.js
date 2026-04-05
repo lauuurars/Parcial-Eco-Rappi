@@ -39,12 +39,12 @@ app.use("/rappi", express.static(frontendDistPath));
 app.use("/", express.static(publicPath));
 
 // SPA fallback
-app.get("/rappi/*", (req, res) => {
+app.get(/^\/rappi(\/.*)?$/, (req, res) => {
     res.sendFile(path.join(frontendDistPath, "index.html"));
 });
 
 // 
-app.get("*", (req, res) => {
+app.get(/.*/, (req, res) => {
     if (
         req.path.startsWith("/orders") ||
         req.path.startsWith("/users") ||
