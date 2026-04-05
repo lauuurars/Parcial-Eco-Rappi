@@ -28,14 +28,15 @@ export class UsersRepository {
 
     // método 3: crear un nuevo usuario 
 
-    createUser = async ({ username, email }) => {
+    createUser = async ({ id,   username, email, role }) => {
+        const safeRole = role ?? "consumer";
         const query = `
-        INSERT INTO users (username, email, created_at)
-        VALUES ($1, $2, NOW())
+        INSERT INTO users (id, username, email, role, created_at)
+        VALUES ($1, $2, $3, $4, NOW())
         RETURNING *;
     `;
 
-        const values = [username, email];
+        const values = [id, username, email, safeRole];
 
         const result = await pool.query(query, values);
         return result.rows[0]
@@ -43,3 +44,5 @@ export class UsersRepository {
     }
 
 }
+
+export const userRepository = new UsersRepository()
