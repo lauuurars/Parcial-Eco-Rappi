@@ -35,7 +35,7 @@ export default function Login() {
                 navigate("/rappi-app/consumer");
             } 
             else if (role === "delivery") {
-                navigate("/rappi-app/orders");
+                navigate("/rappi-app/delivery");
             } 
             else if (role === "store") {
                 navigate("/rappi-app/stores");
