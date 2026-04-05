@@ -6,9 +6,9 @@ import router from './routes/Router.jsx'
 import { CartProvider } from './context/CartProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-      <CartProvider>
-          <RouterProvider router={router} />
-      </CartProvider>
-  </StrictMode>,
+    <StrictMode>
+        <CartProvider>
+            <RouterProvider router={router} />
+        </CartProvider>
+    </StrictMode>,
 )

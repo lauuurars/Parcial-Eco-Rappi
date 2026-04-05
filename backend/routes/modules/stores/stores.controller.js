@@ -126,4 +126,22 @@ export class StoresController {
             res.status(500).send({ error: error.message });
         }
     }
+
+    deleteProduct = async (req, res) => {
+        try {
+            const storeId = req.params.storeId;
+            const productId = req.params.productId;
+
+            const deletedProduct = await this.repository.deleteProduct(storeId, productId);
+
+            if (!deletedProduct) {
+                res.status(404).send({ message: "Product not found" });
+                return;
+            }
+
+            res.send({ product: deletedProduct });
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }

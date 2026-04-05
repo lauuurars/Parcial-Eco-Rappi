@@ -23,4 +23,6 @@ router.get("/:storeId/products", controller.getProductsByStoreId);
 
 router.post("/:storeId/products", controller.createProduct); // creando producto en la tienda seleccionada
 
+router.delete("/:storeId/products/:productId", controller.deleteProduct);
+
 export default router;

@@ -124,4 +124,15 @@ export class StoresRepository {
         const result = await pool.query(query);
         return result.rows;
     }
+
+    deleteProduct = async (storeId, productId) => {
+        const query = `
+            DELETE FROM products
+            WHERE id = $1 AND store_id = $2
+            RETURNING *;
+        `;
+
+        const result = await pool.query(query, [productId, storeId]);
+        return result.rows[0];
+    }
 }

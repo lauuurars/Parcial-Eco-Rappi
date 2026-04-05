@@ -11,8 +11,9 @@ export default function AppNavbar({ title }) {
 
     const [isCartOpen, setIsCartOpen] = useState(false);
 
-    const cartItems = Array.isArray(cart) ? cart : [];
-    const cartCount = cartItems.length;
+    const isConsumer = user?.role === "consumer";
+    const cartItems = isConsumer && Array.isArray(cart) ? cart : [];
+    const cartCount = isConsumer ? cartItems.length : 0;
 
     const toggleCart = () => setIsCartOpen((value) => !value);
 
@@ -59,31 +60,33 @@ export default function AppNavbar({ title }) {
                 </div>
 
                 <div className="flex items-center gap-3 relative">
-                    <button
-                        type="button"
-                        onClick={toggleCart}
-                        className="cursor-pointer relative h-10 w-10 rounded-full border-[1.5px] border-[#e2ddd8] bg-white text-[#111010] hover:border-[#ff4f00] hover:text-[#ff4f00] transition-colors flex items-center justify-center"
-                        aria-label="Abrir carrito"
-                    >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path
-                                d="M6 7h15l-1.5 8.5a2 2 0 0 1-2 1.5H9a2 2 0 0 1-2-1.6L5.4 4.8A1 1 0 0 0 4.4 4H3"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                            <path d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
-                            <path d="M18 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
-                        </svg>
-                        {cartCount > 0 && (
-                            <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[#ff4f00] text-white text-[11px] font-black flex items-center justify-center">
-                                {cartCount}
-                            </span>
-                        )}
-                    </button>
+                    {isConsumer && (
+                        <button
+                            type="button"
+                            onClick={toggleCart}
+                            className="cursor-pointer relative h-10 w-10 rounded-full border-[1.5px] border-[#e2ddd8] bg-white text-[#111010] hover:border-[#ff4f00] hover:text-[#ff4f00] transition-colors flex items-center justify-center"
+                            aria-label="Abrir carrito"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path
+                                    d="M6 7h15l-1.5 8.5a2 2 0 0 1-2 1.5H9a2 2 0 0 1-2-1.6L5.4 4.8A1 1 0 0 0 4.4 4H3"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                                <path d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
+                                <path d="M18 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
+                            </svg>
+                            {cartCount > 0 && (
+                                <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[#ff4f00] text-white text-[11px] font-black flex items-center justify-center">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </button>
+                    )}
 
-                    {user?.role === "consumer" && (
+                    {isConsumer && (
                         <button
                             type="button"
                             onClick={handleGoToMyOrders}
@@ -104,7 +107,7 @@ export default function AppNavbar({ title }) {
                         Cerrar sesión
                     </button>
 
-                    {isCartOpen && (
+                    {isConsumer && isCartOpen && (
                         <>
                             <button
                                 type="button"
