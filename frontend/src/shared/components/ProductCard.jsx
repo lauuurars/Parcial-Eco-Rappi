@@ -28,7 +28,7 @@ export default function ProductCard({ product, mode = "consumer", isStoreOpen = 
                             type="button"
                             onClick={() => onDelete(product)}
                             disabled={isDeleting}
-                            className="cursor-pointer px-4 py-2 rounded-full border-[1.5px] border-[#f0e6df] bg-white hover:bg-[#f1f1f1] text-[#e25922] text-xs font-black hover:border-[#d54b14] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="cursor-pointer px-4 py-2 rounded-full border-[1.5px] border-[#f0e6df] bg-white hover:bg-[#fdf0ee] text-[#e25922] text-xs font-black hover:border-[#d54b14] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             style={{ fontFamily: "'Syne', sans-serif" }}
                         >
                             {isDeleting ? "Eliminando..." : "Eliminar"}

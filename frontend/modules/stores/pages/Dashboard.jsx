@@ -9,12 +9,15 @@ export default function Dashboard() {
 
     const [store, setStore] = useState(user?.store ?? null);
     const [products, setProducts] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     const [isLoadingStore, setIsLoadingStore] = useState(true);
     const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+    const [isLoadingOrders, setIsLoadingOrders] = useState(true);
     const [isToggling, setIsToggling] = useState(false);
     const [isCreatingProduct, setIsCreatingProduct] = useState(false);
     const [deletingProductId, setDeletingProductId] = useState("");
+    const [decidingOrderId, setDecidingOrderId] = useState("");
 
     const [feedbackMessage, setFeedbackMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -113,6 +116,47 @@ export default function Dashboard() {
         };
 
         loadProducts();
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [storeId, buildUrl]);
+
+    useEffect(() => {
+        let isCancelled = false;
+
+        const loadOrders = async () => {
+            if (!storeId) {
+                setIsLoadingOrders(false);
+                return;
+            }
+
+            try {
+                setIsLoadingOrders(true);
+                setErrorMessage("");
+
+                const response = await fetch(buildUrl(`/orders/store/${storeId}`));
+                const json = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(json?.error || json?.message || "No se pudieron cargar las órdenes.");
+                }
+
+                if (!isCancelled) {
+                    setOrders(Array.isArray(json?.orders) ? json.orders : []);
+                }
+            } catch (error) {
+                if (!isCancelled) {
+                    setErrorMessage(String(error?.message ?? "No se pudieron cargar las órdenes."));
+                }
+            } finally {
+                if (!isCancelled) {
+                    setIsLoadingOrders(false);
+                }
+            }
+        };
+
+        loadOrders();
 
         return () => {
             isCancelled = true;
@@ -253,8 +297,43 @@ export default function Dashboard() {
         }
     };
 
+    const handleDecideOrder = async (orderId, decision) => {
+        if (!storeId || !orderId) return;
+
+        try {
+            setDecidingOrderId(orderId);
+            setFeedbackMessage("");
+            setErrorMessage("");
+
+            const response = await fetch(buildUrl(`/stores/${storeId}/orders/${orderId}`), {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ decision }),
+            });
+            const json = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(json?.error || json?.message || "No se pudo actualizar la orden.");
+            }
+
+            const updatedOrder = json?.order;
+            if (updatedOrder?.id) {
+                setOrders((current) => (Array.isArray(current) ? current : []).map((order) => (order?.id === updatedOrder.id ? updatedOrder : order)));
+            }
+
+            setFeedbackMessage(decision === "accept" ? "Orden aceptada correctamente." : "Orden rechazada correctamente.");
+        } catch (error) {
+            setErrorMessage(String(error?.message ?? "No se pudo actualizar la orden."));
+        } finally {
+            setDecidingOrderId("");
+        }
+    };
+
     const storeTitle = store?.name ? `Panel · ${store.name}` : "Panel de tienda";
     const isStoreOpen = Boolean(store?.is_open);
+    const pendingOrders = (Array.isArray(orders) ? orders : []).filter((order) => order?.status === "pending");
 
     return (
         <div className="min-h-screen bg-[#f5f2ee]">
@@ -298,15 +377,15 @@ export default function Dashboard() {
                     </div>
                 )}
 
-                {storeId && (isLoadingStore || isLoadingProducts) && (
+                {storeId && (isLoadingStore || isLoadingProducts || isLoadingOrders) && (
                     <div className="text-sm text-[#7a7370]">Cargando panel...</div>
                 )}
 
-                {storeId && !isLoadingStore && !isLoadingProducts && errorMessage && (
+                {storeId && !isLoadingStore && !isLoadingProducts && !isLoadingOrders && errorMessage && (
                     <div className="text-sm text-red-500 mb-6">{errorMessage}</div>
                 )}
 
-                {storeId && !isLoadingStore && !isLoadingProducts && feedbackMessage && !errorMessage && (
+                {storeId && !isLoadingStore && !isLoadingProducts && !isLoadingOrders && feedbackMessage && !errorMessage && (
                     <div className="text-sm text-[#1f7a36] mb-6">{feedbackMessage}</div>
                 )}
 
@@ -335,11 +414,75 @@ export default function Dashboard() {
 
                         <section className="lg:col-span-3 rounded-3xl border-[1.5px] border-[#e2ddd8] bg-white p-6">
                             <h2 className="text-xl font-black tracking-tight text-[#111010] mb-2" style={{ fontFamily: "'Syne', sans-serif" }}>
-                                Productos
+                                Órdenes
                             </h2>
                             <p className="text-sm text-[#7a7370] mb-6">
-                                Crea productos y revisa los productos existentes.
+                                Acepta o rechaza las órdenes pendientes de tus clientes.
                             </p>
+
+                            {isLoadingOrders && (
+                                <div className="text-sm text-[#7a7370]">Cargando órdenes...</div>
+                            )}
+
+                            {!isLoadingOrders && pendingOrders.length === 0 && (
+                                <div className="text-sm text-center justify-center font-bold text-[#db6f41] mb-8">No tienes órdenes pendientes.</div>
+                            )}
+
+                            {!isLoadingOrders && pendingOrders.length > 0 && (
+                                <div className="flex flex-col gap-3 mb-10">
+                                    {pendingOrders.map((order) => (
+                                        <div key={order.id} className="rounded-2xl border-[1.5px] border-[#e2ddd8] bg-[#fbfaf8] p-4">
+                                            <div className="flex items-start justify-between gap-3 mb-3">
+                                                <div>
+                                                    <p className="text-xs font-semibold uppercase tracking-wide text-[#7a7370]">Orden</p>
+                                                    <p className="text-sm font-black text-[#111010]" style={{ fontFamily: "'Syne', sans-serif" }}>
+                                                        {String(order?.id ?? "").slice(0, 8)}
+                                                    </p>
+                                                </div>
+                                                <span className="text-xs font-bold px-3 py-1 rounded-full border-[1.5px] border-[#f0e6df] bg-white text-[#7a3a1f] whitespace-nowrap">
+                                                    Pendiente
+                                                </span>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                                <div>
+                                                    <p className="text-xs font-semibold uppercase tracking-wide text-[#7a7370]">Dirección</p>
+                                                    <p className="text-sm text-[#111010]">{order?.address ?? "-"}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-semibold uppercase tracking-wide text-[#7a7370]">Total</p>
+                                                    <p className="text-sm font-bold text-[#111010]">${order?.total ?? "-"}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center justify-end gap-3">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDecideOrder(order.id, "reject")}
+                                                    disabled={decidingOrderId === order.id}
+                                                    className="cursor-pointer px-5 py-2 rounded-full border-[1.5px] border-[#f0e6df] text-[#e25922] text-sm font-bold hover:border-[#e25922] hover:bg-[#fdf0ee] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    style={{ fontFamily: "'Syne', sans-serif" }}
+                                                >
+                                                    {decidingOrderId === order.id ? "Actualizando..." : "Rechazar"}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDecideOrder(order.id, "accept")}
+                                                    disabled={decidingOrderId === order.id}
+                                                    className="cursor-pointer px-5 py-2 rounded-full bg-[#ff4f00] text-white text-sm font-black transition-colors hover:bg-[#e64900] disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    style={{ fontFamily: "'Syne', sans-serif" }}
+                                                >
+                                                    {decidingOrderId === order.id ? "Actualizando..." : "Aceptar"}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            <h2 className="text-xl font-black tracking-tight text-[#111010] mb-2" style={{ fontFamily: "'Syne', sans-serif" }}>
+                                Productos
+                            </h2>
+                            <p className="text-sm text-[#7a7370] mb-6">Crea productos y revisa los productos existentes.</p>
 
                             <form onSubmit={handleCreateProduct} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                 <div className="md:col-span-2">

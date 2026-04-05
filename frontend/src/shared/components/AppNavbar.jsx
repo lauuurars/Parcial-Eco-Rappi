@@ -12,6 +12,7 @@ export default function AppNavbar({ title }) {
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     const isConsumer = user?.role === "consumer";
+    const isStore = user?.role === "store" || user?.role === "store_admin";
     const cartItems = isConsumer && Array.isArray(cart) ? cart : [];
     const cartCount = isConsumer ? cartItems.length : 0;
 
@@ -42,6 +43,16 @@ export default function AppNavbar({ title }) {
     const handleGoToMyOrders = () => {
         setIsCartOpen(false);
         navigate("/rappi-app/consumer/orders");
+    };
+
+    const handleGoToStoreDashboard = () => {
+        setIsCartOpen(false);
+        navigate("/rappi-app/stores");
+    };
+
+    const handleGoToStoreOrders = () => {
+        setIsCartOpen(false);
+        navigate("/rappi-app/stores/orders");
     };
 
     return (
@@ -94,6 +105,28 @@ export default function AppNavbar({ title }) {
                             style={{ fontFamily: "'Syne', sans-serif" }}
                         >
                             Mis pedidos
+                        </button>
+                    )}
+
+                    {isStore && (
+                        <button
+                            type="button"
+                            onClick={handleGoToStoreDashboard}
+                            className="cursor-pointer px-4 py-2 rounded-full border-[1.5px] border-[#e2ddd8] text-[#111010] text-sm font-bold hover:border-[#ff4f00] hover:text-[#ff4f00] transition-colors"
+                            style={{ fontFamily: "'Syne', sans-serif" }}
+                        >
+                            Panel
+                        </button>
+                    )}
+
+                    {isStore && (
+                        <button
+                            type="button"
+                            onClick={handleGoToStoreOrders}
+                            className="cursor-pointer px-4 py-2 rounded-full border-[1.5px] border-[#e2ddd8] text-[#111010] text-sm font-bold hover:border-[#ff4f00] hover:text-[#ff4f00] transition-colors"
+                            style={{ fontFamily: "'Syne', sans-serif" }}
+                        >
+                            Órdenes
                         </button>
                     )}
 

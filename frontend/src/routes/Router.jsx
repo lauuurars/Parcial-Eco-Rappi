@@ -11,6 +11,7 @@ import MakeOrder from "../../modules/consumer/Pages/MakeOrder.jsx";
 import MyOrders from "../../modules/consumer/Pages/MyOrders.jsx";
 import RedirectByRole from "./RedirectByRole.jsx";
 import Dashboard from "../../modules/stores/pages/Dashboard.jsx";
+import StoreOrders from "../../modules/stores/pages/StoreOrders.jsx";
 import DeliveryHome from "../../modules/delivery/pages/DeliveryHome.jsx";
 
 const router = createBrowserRouter(
@@ -74,6 +75,14 @@ const router = createBrowserRouter(
                     element: (
                         <PrivateRoute allowedRoles={["store", "store_admin"]}>
                             <Dashboard />
+                        </PrivateRoute>
+                    ),
+                },
+                {
+                    path: "stores/orders",
+                    element: (
+                        <PrivateRoute allowedRoles={["store", "store_admin"]}>
+                            <StoreOrders />
                         </PrivateRoute>
                     ),
                 },
