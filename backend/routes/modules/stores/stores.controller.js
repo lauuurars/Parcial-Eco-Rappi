@@ -141,6 +141,14 @@ export class StoresController {
 
             res.send({ product: deletedProduct });
         } catch (error) {
+            if (error?.code === "23503") {
+                res.status(409).send({
+                    message:
+                        "No se puede eliminar este producto porque ya está asociado a una o más órdenes.",
+                });
+                return;
+            }
+
             res.status(500).send({ error: error.message });
         }
     }
