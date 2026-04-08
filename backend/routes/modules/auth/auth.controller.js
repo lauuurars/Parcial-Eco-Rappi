@@ -1,4 +1,3 @@
-import { userRepository } from "../users/users.repository.js";
 import { authRepository } from "./auth.repository.js";
 
 class AuthController {
